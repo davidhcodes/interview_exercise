@@ -110,6 +110,7 @@ export class MessageResolver {
       authenticatedUser,
     );
   }
+  
 
   @Mutation(() => ChatMessage)
   @UseGuards(GqlAuthGuard)

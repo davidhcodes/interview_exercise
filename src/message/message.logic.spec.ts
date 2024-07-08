@@ -241,7 +241,12 @@ describe('MessageLogic', () => {
       }
       return mockCreatedMessage;
     }
-
+    updateTags(
+      messageId: string,
+      tags: Tag[],
+    ): Promise<ChatMessageModel> {
+      throw new Error('Method not implemented');
+    }
     delete(messageId: ObjectId, sender: ObjectId) {
       return {
         _id: messageId,

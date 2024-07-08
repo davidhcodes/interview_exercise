@@ -7,6 +7,25 @@ import {
 } from '@nestjs/graphql';
 import { ObjectID } from 'mongodb';
 
+
+export enum TagType {
+  subTopic = 'subTopic',
+}
+
+registerEnumType(TagType, {
+  name: 'TagType',
+});
+
+export class Tag {
+  @Field()
+  id: String;
+
+  @Field(()=>TagType)
+  type: TagType;
+   enum: TagType; 
+}
+
+
 export enum GifType {
   Gif = 'gif',
   Sticker = 'sticker',
@@ -112,6 +131,9 @@ export class RichContentDto {
 export class MessageDto {
   @Field()
   text: string;
+
+  @Field()
+  tags?: Tag[];
 
   @Field()
   conversationId: ObjectID;

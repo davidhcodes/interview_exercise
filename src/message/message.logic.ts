@@ -13,6 +13,7 @@ import {
   ResolveMessageDto,
   ReactionDto,
   PollOptionDto,
+  Tag,
 } from './models/message.dto';
 import { MessageData } from './message.data';
 import { IAuthenticatedUser } from '../authentication/jwt.strategy';
@@ -57,6 +58,10 @@ export interface IMessageLogic {
     getMessageDto: GetMessageDto,
     authenticatedUser?: IAuthenticatedUser,
   ): Promise<PaginatedChatMessages>;
+  updateTags(
+    messageId: string,
+    tags: Tag[],
+  ): Promise<MessageDto>;
   resolve(
     resolveMessageDto: ResolveMessageDto,
     authenticatedUser?: IAuthenticatedUser,
@@ -153,6 +158,8 @@ export class MessageLogic implements IMessageLogic {
     return message;
   }
 
+
+
   private async mapRichContent(
     messageDto: MessageDto,
     message: ChatMessageModel,
@@ -240,6 +247,23 @@ export class MessageLogic implements IMessageLogic {
 
     return this.messageData.getMessage(messageId.toHexString());
   }
+
+
+  async updateTags(
+    messageId: string,
+    tags: Tag[],
+  ): Promise<MessageDto> {
+    try {
+      const updatedRecord = await this.messageData.updateTags(
+        messageId,
+        tags,
+      );
+      return updatedRecord;
+    } catch (error) {
+      throw new error ('Message not found');
+    }
+  }
+
 
   private async getBlockedUserIds(
     contexts: ContextSchema[],
